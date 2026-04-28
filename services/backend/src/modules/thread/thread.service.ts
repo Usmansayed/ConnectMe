@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Thread } from '@connectme/shared-types';
 
 export function getThreads(workspaceId: string): Thread[] {
-  return db.prepare('SELECT * FROM threads WHERE workspace_id = ? ORDER BY created_at DESC').all(workspaceId) as Thread[];
+  return db.prepare('SELECT * FROM threads WHERE workspace_id = ? ORDER BY created_at DESC').all(workspaceId) as unknown as Thread[];
 }
 
 export function createThread(workspaceId: string, name: string): Thread {

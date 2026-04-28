@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Message } from '@connectme/shared-types';
 
 export function getMessages(threadId: string): Message[] {
-  return db.prepare('SELECT * FROM messages WHERE thread_id = ? ORDER BY created_at ASC').all(threadId) as Message[];
+  return db.prepare('SELECT * FROM messages WHERE thread_id = ? ORDER BY created_at ASC').all(threadId) as unknown as Message[];
 }
 
 export function saveMessage(threadId: string, provider: string, role: 'user' | 'assistant', content: string): Message {

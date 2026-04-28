@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Workspace } from '@connectme/shared-types';
 
 export function getWorkspaces(): Workspace[] {
-  return db.prepare('SELECT * FROM workspaces ORDER BY created_at DESC').all() as Workspace[];
+  return db.prepare('SELECT * FROM workspaces ORDER BY created_at DESC').all() as unknown as Workspace[];
 }
 
 export function createWorkspace(name: string): Workspace {
@@ -16,7 +16,7 @@ export function createWorkspace(name: string): Workspace {
 export function updateWorkspace(id: string, name: string): Workspace | null {
   const now = new Date().toISOString();
   db.prepare('UPDATE workspaces SET name = ?, updated_at = ? WHERE id = ?').run(name, now, id);
-  return db.prepare('SELECT * FROM workspaces WHERE id = ?').get(id) as Workspace | null;
+  return (db.prepare('SELECT * FROM workspaces WHERE id = ?').get(id) as unknown as Workspace | undefined) ?? null;
 }
 
 export function deleteWorkspace(id: string): void {

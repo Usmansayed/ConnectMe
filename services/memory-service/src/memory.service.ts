@@ -1,4 +1,4 @@
-import Database from 'better-sqlite3';
+import { DatabaseSync } from 'node:sqlite';
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
 import fs from 'fs';
@@ -12,12 +12,12 @@ export interface MemoryItem {
 }
 
 export class MemoryService {
-  private db: Database.Database;
+  private db: DatabaseSync;
 
   constructor(dbPath: string) {
     const dir = path.dirname(dbPath);
     fs.mkdirSync(dir, { recursive: true });
-    this.db = new Database(dbPath);
+    this.db = new DatabaseSync(dbPath);
     this.init();
   }
 
@@ -58,9 +58,9 @@ export class MemoryService {
 
     // Simple keyword search
     const conditions = keywordList.map(() => '(content LIKE ? OR keywords LIKE ?)').join(' OR ');
-    const params: string[] = [];
+    const params: (string | number)[] = [];
     keywordList.forEach((kw) => { params.push(`%${kw}%`, `%${kw}%`); });
-    params.push(workspaceId, String(limit));
+    params.push(workspaceId, limit);
 
     return this.db.prepare(`SELECT * FROM memory_items WHERE (${conditions}) AND workspace_id = ? ORDER BY created_at DESC LIMIT ?`).all(...params) as MemoryItem[];
   }

@@ -11,5 +11,5 @@ export function setSetting(key: string, value: string): void {
 }
 
 export function getAllSettings(): Setting[] {
-  return db.prepare('SELECT * FROM settings').all() as Setting[];
+  return db.prepare('SELECT * FROM settings').all() as unknown as Setting[];
 }

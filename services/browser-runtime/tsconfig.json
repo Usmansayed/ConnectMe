@@ -6,7 +6,12 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@connectme/shared-types": ["../../packages/shared-types/src/index.ts"],
+      "@connectme/provider-sdk": ["../../packages/provider-sdk/src/index.ts"]
+    }
   },
   "include": ["src/**/*"]
 }

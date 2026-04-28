@@ -1,4 +1,4 @@
-import Database from 'better-sqlite3';
+import { DatabaseSync } from 'node:sqlite';
 import path from 'path';
 import fs from 'fs';
 
@@ -7,7 +7,7 @@ if (!fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR, { recursive: true });
 }
 
-const db = new Database(path.join(DATA_DIR, 'connectme.db'));
+const db = new DatabaseSync(path.join(DATA_DIR, 'connectme.db'));
 
 export function initDb(): void {
   db.exec(`
