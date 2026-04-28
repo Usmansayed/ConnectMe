@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.env
+data/sqlite/*.db
+profiles/chatgpt/
+profiles/claude/
+profiles/gemini/
+logs/*.log
+*.log
+.DS_Store

@@ -1,0 +1,16 @@
+{
+  "name": "connectme",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": ["apps/*", "services/*", "packages/*"],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:frontend": "npm run dev --workspace=apps/frontend",
+    "dev:backend": "npm run dev --workspace=services/backend",
+    "build": "npm run build --workspace=packages/shared-types && npm run build --workspace=apps/frontend && npm run build --workspace=services/backend",
+    "install:all": "npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
