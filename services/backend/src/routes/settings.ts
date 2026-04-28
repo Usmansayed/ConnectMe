@@ -2,7 +2,7 @@ import { FastifyInstance } from 'fastify';
 import * as settingsService from '../modules/settings/settings.service';
 
 export async function settingsRoutes(fastify: FastifyInstance) {
-  fastify.get('/settings', async () => {
+  fastify.get('/settings', { config: { rateLimit: { max: 100, timeWindow: '1 minute' } } }, async () => {
     return settingsService.getAllSettings();
   });
 

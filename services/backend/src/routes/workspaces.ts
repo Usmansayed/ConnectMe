@@ -2,7 +2,7 @@ import { FastifyInstance } from 'fastify';
 import * as workspaceService from '../modules/workspace/workspace.service';
 
 export async function workspaceRoutes(fastify: FastifyInstance) {
-  fastify.get('/workspaces', async () => {
+  fastify.get('/workspaces', { config: { rateLimit: { max: 100, timeWindow: '1 minute' } } }, async () => {
     return workspaceService.getWorkspaces();
   });
 
