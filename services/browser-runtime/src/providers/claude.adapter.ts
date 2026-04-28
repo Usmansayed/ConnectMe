@@ -20,7 +20,8 @@ export class ClaudeAdapter extends BaseProviderAdapter {
       await this.page.goto('https://claude.ai', { waitUntil: 'domcontentloaded', timeout: 30000 });
       await this.page.waitForTimeout(2000);
       const url = this.page.url();
-      return !url.includes('login');
+      const hostname = new URL(url).hostname;
+      return hostname === 'claude.ai' || hostname.endsWith('.claude.ai');
     } catch {
       return false;
     }
@@ -50,7 +51,7 @@ export class ClaudeAdapter extends BaseProviderAdapter {
     const self = this;
 
     const url = page.url();
-    if (!url.includes('claude.ai')) {
+    if (new URL(url).hostname !== 'claude.ai') {
       await page.goto('https://claude.ai', { waitUntil: 'domcontentloaded', timeout: 30000 });
       await page.waitForTimeout(2000);
     }

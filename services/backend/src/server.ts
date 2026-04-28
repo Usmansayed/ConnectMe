@@ -1,5 +1,6 @@
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
+import rateLimit from '@fastify/rate-limit';
 import { initDb } from './db/database';
 import { workspaceRoutes } from './routes/workspaces';
 import { threadRoutes } from './routes/threads';
@@ -17,6 +18,9 @@ async function main() {
 
   // CORS for frontend
   await server.register(cors, { origin: ['http://localhost:5173', 'http://localhost:3000'], credentials: true });
+
+  // Rate limiting – protects DB routes from runaway loops (local app, generous limits)
+  await server.register(rateLimit, { max: 200, timeWindow: '1 minute' });
 
   // Register routes
   await server.register(workspaceRoutes);

@@ -20,7 +20,8 @@ export class GeminiAdapter extends BaseProviderAdapter {
       await this.page.goto('https://gemini.google.com', { waitUntil: 'domcontentloaded', timeout: 30000 });
       await this.page.waitForTimeout(2000);
       const url = this.page.url();
-      return !url.includes('accounts.google.com');
+      const hostname = new URL(url).hostname;
+      return hostname === 'gemini.google.com' || hostname.endsWith('.google.com');
     } catch {
       return false;
     }
@@ -51,7 +52,7 @@ export class GeminiAdapter extends BaseProviderAdapter {
     const self = this;
 
     const url = page.url();
-    if (!url.includes('gemini.google.com')) {
+    if (new URL(url).hostname !== 'gemini.google.com') {
       await page.goto('https://gemini.google.com', { waitUntil: 'domcontentloaded', timeout: 30000 });
       await page.waitForTimeout(2000);
     }

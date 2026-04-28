@@ -20,7 +20,8 @@ export class ChatGPTAdapter extends BaseProviderAdapter {
       await this.page.goto('https://chatgpt.com', { waitUntil: 'domcontentloaded', timeout: 30000 });
       await this.page.waitForTimeout(2000);
       const url = this.page.url();
-      return !url.includes('login') && !url.includes('auth');
+      const hostname = new URL(url).hostname;
+      return hostname === 'chatgpt.com' || hostname.endsWith('.chatgpt.com');
     } catch {
       return false;
     }
@@ -68,7 +69,7 @@ export class ChatGPTAdapter extends BaseProviderAdapter {
 
     // Ensure we're on chatgpt.com
     const url = page.url();
-    if (!url.includes('chatgpt.com')) {
+    if (new URL(url).hostname !== 'chatgpt.com') {
       await page.goto('https://chatgpt.com', { waitUntil: 'domcontentloaded', timeout: 30000 });
       await page.waitForTimeout(2000);
     }
